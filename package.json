@@ -1,0 +1,31 @@
+{
+  "name": "firebird_tweet_assistant",
+  "version": "1.0.0",
+  "description": "Use Machine Learning with the twitter api to create textual suggestions to increase the likelihood of a tweet being retweeted.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CodeBlackwell/Firebird.git"
+  },
+  "keywords": [
+    "twitter"
+  ],
+  "author": "LeChristopher J. Blackwell <CodeBlackwell@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CodeBlackwell/Firebird/issues"
+  },
+  "homepage": "https://github.com/CodeBlackwell/Firebird#readme",
+  "devDependencies": {
+    "express": "4.14.0",
+    "nodemon": "1.9.2"
+  },
+  "dependencies": {
+    "body-parser": "1.15.2",
+    "twitter": "1.3.0",
+    "twitter-js-client": "0.0.5"
+  }
+}
