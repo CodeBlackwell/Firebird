@@ -32,8 +32,11 @@ var server = app.listen(3000);
 */
 
 var URL = encodeURIComponent("#realestate");
+var tweetStorage = [{id: 0}];
+var theLastTweet = tweetStorage[tweetStorage.length - 1].id;
 
-
-twitter.get("https://api.twitter.com/1.1/search/tweets.json?q=" + URL + "&src=typd", function(err, res) {
-  console.log(res);
+twitter.get("https://api.twitter.com/1.1/search/tweets.json?q=" + URL + "&since_id=" + theLastTweet + "&count=10&src=typd", function(err, res) {
+  console.log(res, res.statuses.length);
+  
+  
 });
