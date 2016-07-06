@@ -25,6 +25,8 @@
   },
   "dependencies": {
     "body-parser": "1.15.2",
+    "json-2-csv": "2.0.22",
+    "json2csv": "3.5.1",
     "twitter": "1.3.0",
     "twitter-js-client": "0.0.5"
   }
