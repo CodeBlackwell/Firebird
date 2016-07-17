@@ -84,6 +84,7 @@ twitter.get('https://api.twitter.com/1.1/search/tweets.json?q=' + URL + '&since_
               statusBank.push(tweetStorage[i][q]);
             }
           }
+          var uniqueTweets = {}
           // console.log(Object.keys(tweetStorage));
           // console.log(Object.keys(tweetStorage[0]));
           // console.log(tweetStorage[0]);
@@ -93,17 +94,19 @@ twitter.get('https://api.twitter.com/1.1/search/tweets.json?q=' + URL + '&since_
             statusBank[z]['friended_by'] = statusBank[z]['user']['friends_count'],
             statusBank[z]['#_of_lists'] = statusBank[z]['user']['listed_count'];
           }
-          for (var y = 0; y < statusBank.length; y++) {
-            for (key in statusBank[y]) {
-              if (typeof(statusBank[y][key]) === 'object') {
-                for (miniKey in statusBank[y][key]) {
-                  JSON.stringify(statusBank[y][key][miniKey]);
-                  
-                }
+          // console.log(statusBank[0]);
+          for (var Q = 0; Q < statusBank.length; Q++) {
+            //check to see if the status is retweeted
+            if (statusBank[Q]['retweeted_status']) {
+              //if so, store the original tweet id and tweet
+              if (uniqueTweets['' + statusBank['retweeted_status'].id] ) {
+                
               }
+              uniqueTweets['' + statusBank['retweeted_status'].id] = 1;
+            } else {
+              uniqueTweets['']
             }
           }
-          console.log(statusBank[0]);
 
           fs.writeFileSync('./tweets2.json', JSON.stringify(statusBank), 'utf-8');
           
