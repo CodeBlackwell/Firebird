@@ -34,75 +34,80 @@ var server = app.listen(3000);
 *Using twitter api to retrieve tweets
 */
 
-var URL = encodeURIComponent('cry');
-var tweetStorage1 = [],
+var URL = encodeURIComponent('#realEstate');
+var tweetStorage = [],
     statusBank = [];
 
 twitter.get('https://api.twitter.com/1.1/search/tweets.json?q=' + URL + '&since_id=0&count=100&src=typd', function(err1, res1) {
   if (err1) { 
-    console.log(err1, tweetStorage1.length);
+    console.log(err1, tweetStorage.length);
     return;
   }
-  tweetStorage1.push(res1.statuses);
-  console.log('the first query is pushed', tweetStorage1.length);
+  tweetStorage.push(res1.statuses);
+  console.log('the first query is pushed', tweetStorage.length);
   console.log(Object.keys(res1));
   twitter.get('https://api.twitter.com/1.1/search/tweets.json' + res1.search_metadata.next_results + '&since_id=0&src=typd', function(err2, res2) {
     if (err2) {
-      console.log(err2, tweetStorage1.length);
-      return tweetStorage1;
+      console.log(err2, tweetStorage.length);
+      return tweetStorage;
     }
-    tweetStorage1.push(res2.statuses);
-    console.log('the second query is pushed', tweetStorage1.length);
+    tweetStorage.push(res2.statuses);
+    console.log('the second query is pushed', tweetStorage.length);
     console.log(Object.keys(res2));
     twitter.get('https://api.twitter.com/1.1/search/tweets.json' + res2.search_metadata.next_results + '&since_id=0&src=typd', function(err3, res3) {
       if (err3) {
-        console.log(err3, tweetStorage1.length);
-        return tweetStorage1;
+        console.log(err3, tweetStorage.length);
+        return tweetStorage;
       }
-      tweetStorage1.push(res3.statuses);
-      console.log('the third query is pushed', tweetStorage1.length);
+      tweetStorage.push(res3.statuses);
+      console.log('the third query is pushed', tweetStorage.length);
       console.log(Object.keys(res3));
       twitter.get('https://api.twitter.com/1.1/search/tweets.json' + res3.search_metadata.next_results + '&since_id=0&src=typd', function(err4, res4) {
         if (err4) { 
-          console.log(err4, tweetStorage1.length);
-          return tweetStorage1;
+          console.log(err4, tweetStorage.length);
+          return tweetStorage;
         }
-        tweetStorage1.push(res4.statuses);
-        console.log('the fourth query is pushed', tweetStorage1.length);
+        tweetStorage.push(res4.statuses);
+        console.log('the fourth query is pushed', tweetStorage.length);
         console.log(Object.keys(res4));
         twitter.get('https://api.twitter.com/1.1/search/tweets.json' + res4.search_metadata.next_results + '&since_id=0&src=typd', function(err5, res5) {
           if (err5) { 
-            console.log(err5, tweetStorage1.length);
-            return tweetStorage1;
+            console.log(err5, tweetStorage.length);
+            return tweetStorage;
           }
-          tweetStorage1.push(res5.statuses);
+          tweetStorage.push(res5.statuses);
           console.log('the fifth query is pushed');
-          console.log(Object.keys(res5), tweetStorage1.length);
+          console.log(Object.keys(res5), tweetStorage.length);
 
-          for (var i = 0; i < tweetStorage1.length; i++) {
-            for (var q = 0; q < tweetStorage1[i].length; q++) {
-              statusBank.push(tweetStorage1[i][q]);
+          for (var i = 0; i < tweetStorage.length; i++) {
+            for (var q = 0; q < tweetStorage[i].length; q++) {
+              statusBank.push(tweetStorage[i][q]);
             }
           }
-          // console.log(Object.keys(tweetStorage1));
-          // console.log(Object.keys(tweetStorage1[0]));
-          // console.log(tweetStorage1[0]);
+          // console.log(Object.keys(tweetStorage));
+          // console.log(Object.keys(tweetStorage[0]));
+          // console.log(tweetStorage[0]);
           // console.log(statusBank.length);
+          for (var z = 0; z < statusBank.length; z++) {
+            statusBank[z]['followed_by'] = statusBank[z]['user']['followers_count'],
+            statusBank[z]['friended_by'] = statusBank[z]['user']['friends_count'],
+            statusBank[z]['#_of_lists'] = statusBank[z]['user']['listed_count'];
+          }
+          for (var y = 0; y < statusBank.length; y++) {
+            for (key in statusBank[y]) {
+              if (typeof(statusBank[y][key]) === 'object') {
+                for (miniKey in statusBank[y][key]) {
+                  JSON.stringify(statusBank[y][key][miniKey]);
+                  
+                }
+              }
+            }
+          }
+          console.log(statusBank[0]);
 
-
-          // fs.writeFileSync('./tweets.csv', JSON.stringify(statusBank), 'utf-8');
-
-          // converter(statusBank, function(err, csv) {
-          //   fs.writeFile('./tweets.csv', csv, function (err, success) {
-          //     if (err) { console.log(err); }
-          //     console.log('file has been written');
-          //   });
-          // });
-
-
-
-
-
+          fs.writeFileSync('./tweets2.json', JSON.stringify(statusBank), 'utf-8');
+          
+         
         });
       });
     });

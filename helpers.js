@@ -30,4 +30,13 @@ var asyncLoop = function (iterations, func, callback) {
     return loop;
 };
 
-module.exports = {asyncLoop};
+var json2csv = function (json) {
+    var header = Object.keys(json[0]);
+    var csv = json.map(row => header.map(fieldName => JSON.stringify(row[fieldName] || '')));
+    csv.unshift(header);
+    csv = csv.join('\r\n');
+    return csv;
+};
+
+
+module.exports = {asyncLoop, json2csv};
